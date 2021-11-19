@@ -1,0 +1,14 @@
+title 0.6
+
+note over browser:
+browser stop traditional
+form behavior, call 
+function redrawNotes 
+again to render new 
+component added to the 
+listand then call 
+sendToServer to send 
+newly added json data 
+to server
+end note
+browser->server: HTTP POST exampleapp/new_note_spa

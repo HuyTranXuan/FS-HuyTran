@@ -1,0 +1,23 @@
+title 0.5
+
+
+browser->server: HTTP GET exampleapp/spa
+server-->browser: HTML-code for spa page
+browser->server: HTTP GET exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET exampleapp/spa.js
+server-->browser: spa.js
+
+note over browser:
+browser run the js-code
+and requests JSON data from server 
+end note
+
+browser->server: HTTP GET exampleapp/data.json
+server-->browser: [{ content: "someContent", date: "someDate" }, ...]
+
+note over browser:
+browser executes the event 
+onreadystatechange, parse data
+and renders notes to display
+end note

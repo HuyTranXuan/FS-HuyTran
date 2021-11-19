@@ -1,0 +1,41 @@
+title 0.4
+
+note over browser:
+when we click submit 
+we make a POST request to 
+exampleapp/new_note
+end note
+browser->server: HTTP POST exampleapp/new_note
+note over server:
+after process the data
+server respond with a
+302, tell us to redirect
+to : /exampleapp/notes
+end note
+server-->browser: HTML 302 redirect to exampleapp/notes
+note over browser:
+browser follow that
+instruction and send 
+GET to the address
+the rest follow the
+example to the teeth
+end note
+browser->server: HTTP GET exampleapp/notes
+server-->browser: HTML-code
+browser->server: HTTP GET exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET exampleapp/main.js
+server-->browser: main.js
+
+note over browser:
+browser run the js-code
+and requests JSON data from server 
+end note
+
+browser->server: HTTP GET exampleapp/data.json
+server-->browser: [{ content: "someContent", date: "someDate" }, ...]
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note
