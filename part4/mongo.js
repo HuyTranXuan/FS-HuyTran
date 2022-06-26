@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const blogsRouter = require('./models/blog')
 
 if (process.argv.length<3) {
   console.log('give password as argument')
@@ -26,12 +27,6 @@ const note = new Note({
   important: true,
 })
 
-/*
-note.save().then(response => {
-  console.log('note saved!')
-  mongoose.connection.close()
-})
-*/
 
 Note.find({}).then(result => {
   result.forEach(note => {
