@@ -64,7 +64,8 @@ const Notification = ({ message }) => {
 	if (message === null) {
 		return null;
 	}
-	if (message.includes("already")) return <div style={warning}>{message}</div>;
+	if (message.includes("already") || message.includes("failed"))
+		return <div style={warning}>{message}</div>;
 	else return <div style={notification}>{message}</div>;
 };
 const App = () => {
@@ -74,7 +75,11 @@ const App = () => {
 	const [searchQuerry, setSearchQuerry] = useState("");
 	const [message, setMessage] = useState(null);
 
-	useEffect(() => backEndServices.getAll().then((p) => setPersons(p)), []);
+	useEffect(() => {
+		backEndServices.getAll().then((p) => {
+			setPersons(p);
+		});
+	}, []);
 
 	const handleNameChange = (event) => {
 		setNewName(event.target.value);
@@ -94,13 +99,16 @@ const App = () => {
 				name: newName,
 				number: newNum,
 			};
-			backEndServices.create(newPerson).then((p) => {
-				setPersons(persons.concat(p));
-				setMessage(`Added ${p.name}`);
-				setTimeout(() => {
-					setMessage(null);
-				}, 4000);
-			});
+			backEndServices
+				.create(newPerson)
+				.then((p) => {
+					setPersons(persons.concat(p));
+					setMessage(`Added ${p.name}`);
+					setTimeout(() => {
+						setMessage(null);
+					}, 4000);
+				})
+				.catch((error) => {setMessage(error.response.data);});
 		} else {
 			if (foundTarget.number === newNum)
 				window.alert(`${newName} is already added to phonebook`);
@@ -131,12 +139,17 @@ const App = () => {
 							)
 						)
 						.catch((error) => {
-							setMessage(
-								`Information of ${newPerson.name} has already been removed from server`
-							);
+							let message = "some error happended";
+							if (error) {
+								message = `${error.response.data}`
+							  }
+							else{
+								message=`Information of ${newPerson.name} has already been removed from server`
+							}
+							setMessage(message);
 							setTimeout(() => {
 								setMessage(null);
-							}, 4000);
+							}, 8000);
 							setPersons(
 								persons.filter((person) => person.name !== newPerson.name)
 							);

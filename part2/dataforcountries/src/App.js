@@ -114,7 +114,7 @@ const App = () => {
 	};
 	return (
 		<div>
-			<p>{searchQuerry}</p>
+			{/* <p>{searchQuerry}</p> */}
 			<Filter
 				setSearchQuerry={searchQuerry}
 				handlesearchQuerry={handlesearchQuerry}
