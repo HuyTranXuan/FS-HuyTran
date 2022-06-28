@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+
+{
+      "title": "React awwww",
+      "author": "Michael Chaner",
+      "url": "https://reactpatterns.com/3",
+      "likes": 2
+    }
