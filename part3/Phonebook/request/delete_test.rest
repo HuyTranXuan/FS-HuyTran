@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "cssws",
+    "number": "3411-777-7777",
+    "extraFeature": "26asf"
+}
