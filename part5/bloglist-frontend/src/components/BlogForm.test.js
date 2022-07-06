@@ -17,7 +17,7 @@ describe('test BlogForm', () => {
     ).container
   })
 
-  test('renders its children', async () => {
+  test('event handler received as props with the right details', async () => {
     const user = userEvent.setup()
 
     const inputTitle = screen.getByPlaceholderText('write here blog title')

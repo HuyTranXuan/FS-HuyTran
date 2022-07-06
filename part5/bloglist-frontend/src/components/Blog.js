@@ -4,11 +4,15 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
       <p className="urlElement">{blog.url}</p>
       <form className="likeElement" onSubmit={() => addLike(blog)}>
         likes {blog.likes}
-        <button type="submit">like</button>
+        <button id="like-button" type="submit">
+          like
+        </button>
       </form>
       <p>{blog.author}</p>
       <form onSubmit={() => deleteBlog(blog)}>
-        <button type="submit">remove</button>
+        <button id="remove-button" type="submit">
+          remove
+        </button>
       </form>
     </div>
   )
