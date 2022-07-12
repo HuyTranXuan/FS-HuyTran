@@ -25,10 +25,12 @@ const notificationSlice = createSlice({
 })
 const notificationReducer = notificationSlice.reducer
 
+let timeoutID
 export const setNotification = (content, delay) => {
   return async (dispatch) => {
+    if (timeoutID) clearTimeout(timeoutID)
     dispatch(setMessage(content))
-    setTimeout(() => {
+    timeoutID = setTimeout(() => {
       dispatch(resetMessage())
     }, delay * 1000)
   }
