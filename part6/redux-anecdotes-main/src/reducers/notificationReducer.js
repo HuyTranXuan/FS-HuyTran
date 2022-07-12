@@ -17,10 +17,23 @@ const notificationSlice = createSlice({
     resetMessage() {
       return { message: `` }
     },
+    setMessage(state, action) {
+      const message = action.payload
+      return { message: message }
+    },
   },
 })
 const notificationReducer = notificationSlice.reducer
 
-export const { createAnecMessage, resetMessage, voteAnecMessage } =
+export const setNotification = (content, delay) => {
+  return async (dispatch) => {
+    dispatch(setMessage(content))
+    setTimeout(() => {
+      dispatch(resetMessage())
+    }, delay * 1000)
+  }
+}
+
+export const { createAnecMessage, resetMessage, voteAnecMessage, setMessage } =
   notificationSlice.actions
 export default notificationReducer

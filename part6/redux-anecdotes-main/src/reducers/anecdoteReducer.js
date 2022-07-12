@@ -1,5 +1,69 @@
 import { createSlice } from '@reduxjs/toolkit'
+import anecdotesService from '../services/anecdotes'
 
+const anecSlice = createSlice({
+  name: 'anecdotes',
+  initialState: [],
+  reducers: {
+    /**
+    createAnecdote(state, action) {
+      state.push(action.payload)
+    },
+    vote(state, action) {
+      const id = action.payload
+      const anecToChange = state.find((n) => n.id === id)
+      const changedAnec = {
+        ...anecToChange,
+        votes: Number(anecToChange.votes) + 1,
+      }
+      return state.map((anec) => (anec.id !== id ? anec : changedAnec))
+    },
+     */
+
+    updateAnec(state, action) {
+      const anecToChange = action.payload
+      return state.map((anec) =>
+        anec.id === anecToChange.id ? anecToChange : anec
+      )
+    },
+    appendAnec(state, action) {
+      state.push(action.payload)
+    },
+    setAnecs(state, action) {
+      return action.payload
+    },
+  },
+})
+export const initializeAnecdotes = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdotesService.getAll()
+    dispatch(setAnecs(anecdotes))
+  }
+}
+export const createAnecdote = (content) => {
+  return async (dispatch) => {
+    const newAnec = await anecdotesService.createNew(content)
+    dispatch(appendAnec(newAnec))
+  }
+}
+
+export const vote = (content) => {
+  return async (dispatch) => {
+    const anecs = await anecdotesService.getAll()
+    const anecToChange = anecs.find((n) => n.id === content)
+    const changedAnec = {
+      ...anecToChange,
+      votes: Number(anecToChange.votes) + 1,
+    }
+    await anecdotesService.update(changedAnec)
+    dispatch(updateAnec(changedAnec))
+  }
+}
+
+export const { appendAnec, setAnecs, updateAnec } = anecSlice.actions
+export default anecSlice.reducer
+
+/**
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -18,29 +82,10 @@ const asObject = (anecdote) => {
 }
 const initialState = anecdotesAtStart.map(asObject)
 
-const anecSlice = createSlice({
-  name: 'anecdotes',
-  initialState,
-  reducers: {
-    createAnecdote(state, action) {
       const content = action.payload
       state.push({
         content,
         votes: 0,
         id: getId(),
       })
-    },
-    vote(state, action) {
-      const id = action.payload
-      const anecToChange = state.find((n) => n.id === id)
-      const changedAnec = {
-        ...anecToChange,
-        votes: Number(anecToChange.votes) + 1,
-      }
-      return state.map((anec) => (anec.id !== id ? anec : changedAnec))
-    },
-  },
-})
-
-export const { createAnecdote, vote } = anecSlice.actions
-export default anecSlice.reducer
+ */
