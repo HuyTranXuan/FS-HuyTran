@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@types/node": "^18.6.3"
+  },
+  "name": "typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "ts-node": "ts-node",
+    "calculateBmi": "ts-node bmiCalculator.ts",
+    "calculateExercises": "ts-node exerciseCalculator.ts"
+  },
+  "author": "huy",
+  "license": "ISC",
+  "description": ""
+}
