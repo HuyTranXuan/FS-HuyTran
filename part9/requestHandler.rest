@@ -1,0 +1,8 @@
+POST http://localhost:3003/exercises
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh1eTEiLCJpZCI6IjYyYmFmMDY5ZjNiYTgzYmExODA2NGY3MSIsImlhdCI6MTY1NjQxODQyMX0.oOm24UGjn2-Z-qBYR-p06xCc535Z9H4Cg6HSMIkXmc4
+
+{
+  "daily_exercises": [1, 0, 2, 0, 3,0, 2.5],
+  "target": 2.5
+}

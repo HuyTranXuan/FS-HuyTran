@@ -1,19 +1,3 @@
-interface ECAValues {
-  target: number;
-  a: number[];
-}
-
-const parseECA = (args: Array<string>): ECAValues => {
-  if (args.length < 4) throw new Error('Not enough arguments');
-  const [, , ...arr] = args;
-
-  arr.map((e) => {
-    if (isNaN(Number(e))) throw new Error('Provided values were not numbers!');
-  });
-  const [target, ...a] = arr;
-  return { target: Number(target), a: a.map((ele) => Number(ele)) };
-};
-
 const calculateExercises = (target: number, a: number[]) => {
   const trainingDays = a.filter((d) => d !== 0).length;
   const periodLength = a.length;
@@ -39,14 +23,29 @@ const calculateExercises = (target: number, a: number[]) => {
     average,
   };
 };
+export { calculateExercises };
+// interface ECAValues {
+//   target: number;
+//   a: number[];
+// }
 
-try {
-  const { target, a } = parseECA(process.argv);
-  console.log(calculateExercises(target, a));
-} catch (error: unknown) {
-  let errorMessage = 'Something bad happened.';
-  if (error instanceof Error) {
-    errorMessage += ' Error: ' + error.message;
-  }
-  console.log(errorMessage);
-}
+// const parseECA = (args: Array<string>): ECAValues => {
+//   if (args.length < 4) throw new Error('Not enough arguments');
+//   const [, , ...arr] = args;
+
+//   arr.map((e) => {
+//     if (isNaN(Number(e))) throw new Error('Provided values were not numbers!');
+//   });
+//   const [target, ...a] = arr;
+//   return { target: Number(target), a: a.map((ele) => Number(ele)) };
+// };
+// try {
+//   const { target, a } = parseECA(process.argv);
+//   console.log(calculateExercises(target, a));
+// } catch (error: unknown) {
+//   let errorMessage = 'Something bad happened.';
+//   if (error instanceof Error) {
+//     errorMessage += ' Error: ' + error.message;
+//   }
+//   console.log(errorMessage);
+// }
