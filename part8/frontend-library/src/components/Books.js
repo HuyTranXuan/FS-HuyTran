@@ -1,6 +1,14 @@
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../queries'
 import { useState, useEffect } from 'react'
+import { Typography, Button, ButtonGroup } from '@material-ui/core'
+import {
+  Table,
+  TableHead,
+  TableCell,
+  TableRow,
+  TableBody,
+} from '@material-ui/core'
 
 const Books = (props) => {
   const [genre, setGenre] = useState('all')
@@ -19,40 +27,64 @@ const Books = (props) => {
   genres.map((g) => g.map((e) => genresList.add(e)))
 
   let b = genre === 'all' ? books : filterResult.data.allBooks
-
+  const myStyle = { backgroundColor: '#fde4dc', color: '#000' }
   return (
     <div>
-      <h2>books</h2>
-      <h4>currently: {genre} genre</h4>
+      <Typography variant="h3" style={{ marginBottom: '0.5em' }}>
+        Books
+      </Typography>
+      <Typography variant="h6" style={{ marginBottom: '0.5em' }}>
+        Currently: <b style={{ color: '#f2511b' }}>{genre}</b> genre
+      </Typography>
 
-      <table>
-        <tbody>
-          <tr>
-            <td key="{g}">
-              <button onClick={() => setGenre('all')}>all genres</button>
-            </td>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell key="{g}">
+              <Button
+                variant="contained"
+                style={myStyle}
+                onClick={() => setGenre('all')}
+              >
+                all genres
+              </Button>
+            </TableCell>
             {[...genresList].map((g) => (
-              <td key={g}>
-                <button onClick={() => setGenre(g)}>{g}</button>
-              </td>
+              <TableCell key={g}>
+                <Button
+                  variant="contained"
+                  style={myStyle}
+                  onClick={() => setGenre(g)}
+                >
+                  {g}
+                </Button>
+              </TableCell>
             ))}
-          </tr>
-          <tr>
-            <th></th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell>
+              <b>Title</b>
+            </TableCell>
+            <TableCell>
+              <b>Author</b>
+            </TableCell>
+            <TableCell>
+              <b>Published</b>
+            </TableCell>
+          </TableRow>
           {b
             // .filter((b) => (genre === 'all' ? b : b.genres.includes(genre)))
             .map((a) => (
-              <tr key={a.title}>
-                <td>{a.title}</td>
-                <td>{a.author.name}</td>
-                <td>{a.published}</td>
-              </tr>
+              <TableRow key={a.title + a.author.name}>
+                <TableCell>{a.title}</TableCell>
+                <TableCell>{a.author.name}</TableCell>
+                <TableCell>{a.published}</TableCell>
+              </TableRow>
             ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

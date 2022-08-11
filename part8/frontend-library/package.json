@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react-select": "^5.0.1",
     "apollo-link-context": "^1.0.20",
+    "formik": "^2.2.9",
     "graphql": "^16.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -20,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "be": "cd ../backend-library/ && npm run dev"
   },
   "eslintConfig": {
     "extends": [

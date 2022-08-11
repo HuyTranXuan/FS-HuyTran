@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../queries'
+import { Typography, Button, TextField } from '@material-ui/core'
 
 const LoginForm = ({ setError, setToken }) => {
   const [username, setUsername] = useState('')
@@ -27,24 +28,41 @@ const LoginForm = ({ setError, setToken }) => {
   }
 
   return (
-    <div>
+    <div
+      style={{ width: '50%', position: 'absolute', top: '25%', left: '25%' }}
+    >
+      <Typography variant="h3" style={{ marginBottom: '0.5em' }}>
+        Login
+      </Typography>
       <form onSubmit={submit}>
         <div>
-          username{' '}
-          <input
+          <TextField
+            required
+            fullWidth
+            size="small"
+            variant="outlined"
+            label="Username"
+            style={{ marginBottom: '1em' }}
             value={username}
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
-          password{' '}
-          <input
+          <TextField
+            required
+            fullWidth
+            size="small"
+            variant="outlined"
+            label="Password"
+            style={{ marginBottom: '1em' }}
             type="password"
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <Button variant="contained" type="submit">
+          login
+        </Button>
       </form>
     </div>
   )

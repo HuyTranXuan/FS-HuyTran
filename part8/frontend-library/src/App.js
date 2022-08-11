@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useQuery, useSubscription, useApolloClient } from '@apollo/client'
+import { Button, Container, ButtonGroup } from '@material-ui/core'
 
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -22,14 +23,12 @@ export const updateCache = (cache, query, addedBook) => {
       return seen.has(k) ? false : seen.add(k)
     })
   }
-
   cache.updateQuery(query, ({ allBooks }) => {
     return {
       allBooks: uniqByName(allBooks.concat(addedBook)),
     }
   })
 }
-
 const App = () => {
   const result = useQuery(ALL_AUTHORS)
   const [page, setPage] = useState('authors')
@@ -70,20 +69,24 @@ const App = () => {
     )
   }
   return (
-    <>
-      <div>
-        <Notify errorMessage={errorMessage} />
-        <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
-        <button onClick={() => setPage('recommend')}>recommend</button>
-        <button onClick={logout}>logout</button>
-      </div>
-      <Authors show={page === 'authors'} />
-      <Books show={page === 'books'} />
-      <NewBook show={page === 'add'} setError={notify} />
-      <Recommend show={page === 'recommend'} />
-    </>
+    <div className="App">
+      <Container>
+        <div style={{ marginBottom: '0.75em' }}>
+          <Notify errorMessage={errorMessage} />
+          <ButtonGroup variant="outlined">
+            <Button onClick={() => setPage('authors')}>authors</Button>
+            <Button onClick={() => setPage('books')}>books</Button>
+            <Button onClick={() => setPage('add')}>add book</Button>
+            <Button onClick={() => setPage('recommend')}>recommend</Button>
+            <Button onClick={logout}>logout</Button>
+          </ButtonGroup>
+        </div>
+        <Authors show={page === 'authors'} setError={notify} />
+        <Books show={page === 'books'} />
+        <NewBook show={page === 'add'} setError={notify} />
+        <Recommend show={page === 'recommend'} />
+      </Container>
+    </div>
   )
 }
 

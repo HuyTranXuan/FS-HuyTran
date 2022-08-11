@@ -1,5 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS, MY_BOOKS } from '../queries'
+import { Typography } from '@material-ui/core'
+import {
+  Table,
+  TableHead,
+  TableCell,
+  TableRow,
+  TableBody,
+} from '@material-ui/core'
 
 const Recommend = (props) => {
   const result = useQuery(ALL_BOOKS) // eslint-disable-line
@@ -12,33 +20,46 @@ const Recommend = (props) => {
   }
   const books = result.data.allBooks
   const myGenres = resultGenres.data.me.favouriteGenre
+
   return (
     <div>
-      <h2>Recommendations</h2>
-      <p>
-        books in your favorite genre <b>{myGenres}</b>
-      </p>
+      <Typography variant="h3" style={{ marginBottom: '0.5em' }}>
+        Recommendations
+      </Typography>
 
-      <table>
-        <tbody>
-          <tr>
-            <th>title</th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
+      <Typography variant="h6" style={{ marginBottom: '0.5em' }}>
+        Books in your favorite genre:
+        <b style={{ color: '#f2511b', marginLeft: '0.25em' }}>{myGenres}</b>
+      </Typography>
+
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>
+              <b>Title</b>
+            </TableCell>
+            <TableCell>
+              <b>Author</b>
+            </TableCell>
+            <TableCell>
+              <b>Published</b>
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {books
             .filter((b) =>
               myGenres === 'all' ? b : b.genres.includes(myGenres)
             )
             .map((a) => (
-              <tr key={a.title}>
-                <td>{a.title}</td>
-                <td>{a.author.name}</td>
-                <td>{a.published}</td>
-              </tr>
+              <TableRow key={a.title}>
+                <TableCell>{a.title}</TableCell>
+                <TableCell>{a.author.name}</TableCell>
+                <TableCell>{a.published}</TableCell>
+              </TableRow>
             ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }
