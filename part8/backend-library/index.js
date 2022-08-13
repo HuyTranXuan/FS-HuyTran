@@ -30,6 +30,7 @@ const resolvers = require('./resolvers')
 const start = async () => {
   const app = express()
   app.use(cors())
+  app.use(express.static('build'))
   const httpServer = http.createServer(app)
 
   const schema = makeExecutableSchema({ typeDefs, resolvers })

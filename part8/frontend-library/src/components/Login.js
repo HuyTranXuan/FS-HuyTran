@@ -27,6 +27,7 @@ const LoginForm = ({ setError, setToken }) => {
     login({ variables: { username, password } })
   }
 
+  const myStyle = { backgroundColor: '#f2511b', color: '#fff' }
   return (
     <div
       style={{ width: '50%', position: 'absolute', top: '25%', left: '25%' }}
@@ -60,7 +61,11 @@ const LoginForm = ({ setError, setToken }) => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <Button variant="contained" type="submit">
+
+        <Typography variant="body1" style={{ marginBottom: '0.5em' }}>
+          *Guest can login by using Username: huy, Password: secret
+        </Typography>
+        <Button variant="contained" type="submit" style={myStyle}>
           login
         </Button>
       </form>
