@@ -8,6 +8,7 @@ const { SubscriptionServer } = require('subscriptions-transport-ws')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const User = require('./user')
+const cors = require('cors')
 
 const JWT_SECRET = 'keyytato'
 
@@ -28,6 +29,7 @@ const resolvers = require('./resolvers')
 
 const start = async () => {
   const app = express()
+  app.use(cors())
   const httpServer = http.createServer(app)
 
   const schema = makeExecutableSchema({ typeDefs, resolvers })
@@ -73,11 +75,10 @@ const start = async () => {
     path: '/',
   })
 
-  const PORT = 4000
+  // const PORT = 4000
+  const PORT = process.env.PORT || 4000
 
-  httpServer.listen(PORT, () =>
-    console.log(`Server is now running on http://localhost:${PORT}`)
-  )
+  httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 }
 
 start()
