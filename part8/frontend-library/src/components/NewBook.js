@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { CREATE_BOOK, ALL_BOOKS } from '../queries'
-import { updateCache } from '../App'
+import { CREATE_BOOK, ALL_BOOKS, ALL_AUTHORS } from '../queries'
+
 import { Typography, Button, TextField } from '@material-ui/core'
 
 const NewBook = ({ show, setError }) => {
@@ -11,22 +11,48 @@ const NewBook = ({ show, setError }) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
   const myStyle = { backgroundColor: '#f2511b', color: '#fff' }
-  const [createBook] = useMutation(CREATE_BOOK, {
-    update: (cache, response) => {
-      updateCache(cache, { query: ALL_BOOKS }, response.data.addBook)
-    },
-    onError: (error) => {
-      setError(error.graphQLErrors[0].message)
-    },
-  })
+
+  const [createBook] = useMutation(CREATE_BOOK)
+
   if (!show) {
     return null
   }
+
   const submit = async (event) => {
     event.preventDefault()
     const published = parseInt(publishedValue)
 
-    createBook({ variables: { title, author, published, genres } })
+    createBook({
+      variables: {
+        title,
+        author,
+        genres,
+        published: Number(published),
+      },
+      refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+      update: (store, response) => {
+        genres.forEach((genre) => {
+          try {
+            const dataInStore = store.readQuery({
+              query: ALL_BOOKS,
+              variables: { genre },
+            })
+
+            store.writeQuery({
+              query: ALL_BOOKS,
+              variables: { genre },
+              data: {
+                allBooks: [...dataInStore.allBooks].concat(
+                  response.data.addBook
+                ),
+              },
+            })
+          } catch (e) {
+            console.log('not queried', genre)
+          }
+        })
+      },
+    })
 
     setTitle('')
     setPublished('')

@@ -1,8 +1,9 @@
-import * as React from 'react'
-import { useQuery } from '@apollo/client'
+import React from 'react'
 import { useState } from 'react'
+
+import { useQuery, useMutation } from '@apollo/client'
 import { ADD_YEAR, ALL_AUTHORS } from '../queries'
-import { useMutation } from '@apollo/client'
+
 import {
   Typography,
   Button,
@@ -15,7 +16,9 @@ import {
   TableRow,
   TableBody,
 } from '@material-ui/core'
+
 const myStyle = { backgroundColor: '#f2511b', color: '#fff' }
+
 const SetBirthYear = ({ authors, setError }) => {
   const [authorBorn, setAuthorBorn] = useState('')
   const [selectedOption, setSelectedOption] = useState('')
@@ -27,7 +30,11 @@ const SetBirthYear = ({ authors, setError }) => {
     },
   })
 
-  const submit = async (event) => {
+  if (authors.length === 0) {
+    return null
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const setBornTo = parseInt(authorBorn)
     if (
@@ -52,7 +59,7 @@ const SetBirthYear = ({ authors, setError }) => {
       <Typography variant="h6" style={{ marginBottom: '0.5em' }}>
         Set BirthYear
       </Typography>
-      <form onSubmit={submit} style={{ marginBottom: '0.5em' }}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: '0.5em' }}>
         <Grid>
           <Grid item>
             <TextField
@@ -68,11 +75,6 @@ const SetBirthYear = ({ authors, setError }) => {
               ))}
             </TextField>
           </Grid>
-          {/* <Grid item>
-            <Typography style={{ marginTop: '0.5em' }} variant="body1">
-              Born
-            </Typography>
-          </Grid> */}
           <Grid item>
             <TextField
               variant="outlined"
@@ -125,7 +127,7 @@ const Authors = ({ show, setError }) => {
         </TableHead>
         <TableBody>
           {authors.map((a) => (
-            <TableRow key={a.name}>
+            <TableRow key={`${a.name}+${a.born}`}>
               <TableCell>{a.name}</TableCell>
               <TableCell>{a.born}</TableCell>
               <TableCell>{a.bookCount}</TableCell>

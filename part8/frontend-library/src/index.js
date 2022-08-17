@@ -1,6 +1,7 @@
+import React from 'react'
 import ReactDOM from 'react-dom'
+
 import { setContext } from 'apollo-link-context'
-import App from './App'
 import {
   ApolloClient,
   ApolloProvider,
@@ -11,6 +12,8 @@ import {
 import { getMainDefinition } from '@apollo/client/utilities'
 import { WebSocketLink } from '@apollo/client/link/ws'
 
+import App from './App'
+
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('lib-user-token')
   return {
@@ -20,11 +23,12 @@ const authLink = setContext((_, { headers }) => {
     },
   }
 })
-
-const httpLink = new HttpLink({ uri: 'http://localhost:4000' })
+const httpLink = new HttpLink({
+  uri: `https://library-app-txh.herokuapp.com/`,
+})
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/',
+  uri: `wss://library-app-txh.herokuapp.com/`,
   options: {
     reconnect: true,
   },
