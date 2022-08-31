@@ -1,5 +1,7 @@
 import axios from 'axios'
+
 const baseUrl = '/api/blogs'
+// const baseUrl = 'https://bloglist-app-txh.herokuapp.com/api/blogs'
 
 let token = null
 

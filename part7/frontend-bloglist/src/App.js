@@ -23,10 +23,8 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
-  }, [blogs])
-  useEffect(() => {
     dispatch(getAll())
-  }, [users])
+  })
   const match = useMatch('/blogs/:id')
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null
 
