@@ -1,0 +1,11 @@
+POST http://localhost:3000/api/cards/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh1eTEiLCJpZCI6IjYyYmFmMDY5ZjNiYTgzYmExODA2NGY3MSIsImlhdCI6MTY1NjQxODQyMX0.oOm24UGjn2-Z-qBYR-p06xCc535Z9H4Cg6HSMIkXmc4
+
+{
+  "name": "Battle Axe",
+  "rarity": "rare",
+  "cardType": "weapons",
+  "description": "Sharp axe",
+  "effect": "Deal 3 extra damage to Beast"
+    }
