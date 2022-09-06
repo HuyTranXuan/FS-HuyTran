@@ -1,18 +1,13 @@
-import { NonSsnPatient } from './types';
+import { NonSsnPatient, Gender } from './types';
 
 const isString = (input: unknown): input is string => {
   return typeof input === 'string' || input instanceof String;
 };
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// const isRarity = (param: any): param is Rarity => {
-//   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-//   return Object.values(Rarity).includes(param);
-// };
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// const isCardType = (param: any): param is CardType => {
-//   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-//   return Object.values(CardType).includes(param);
-// };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isGender = (param: any): param is Gender => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return Object.values(Gender).includes(param);
+};
 
 const parseText = (text: unknown): string => {
   if (!text || !isString(text)) {
@@ -20,18 +15,12 @@ const parseText = (text: unknown): string => {
   }
   return text;
 };
-// const parseRarity = (rarity: unknown): Rarity => {
-//   if (!rarity || !isString(rarity) || !isRarity(rarity)) {
-//     throw new Error('Incorrect or missing rarity: ' + rarity);
-//   }
-//   return rarity;
-// };
-// const parseCardType = (cardType: unknown): CardType => {
-//   if (!cardType || !isCardType(cardType)) {
-//     throw new Error('Incorrect or missing cardType: ' + cardType);
-//   }
-//   return cardType;
-// };
+const parseGender = (gender: unknown): Gender => {
+  if (!gender || !isGender(gender)) {
+    throw new Error('Incorrect or missing gender: ' + gender);
+  }
+  return gender;
+};
 
 type Fields = {
   name: unknown;
@@ -48,14 +37,30 @@ const toNewPatient = ({
   gender,
   occupation,
 }: Fields): NonSsnPatient => {
+  // console.log(parseGender(gender), '<<<==========');
+
   const newEntry: NonSsnPatient = {
-    name: parseText(name),
-    id: parseText(id),
-    dateOfBirth: parseText(dateOfBirth),
-    gender: parseText(gender),
-    occupation: parseText(occupation),
+    name: parseText(String(name)),
+    id: parseText(String(id)),
+    dateOfBirth: parseText(String(dateOfBirth)),
+    gender: parseGender(gender),
+    occupation: parseText(String(occupation)),
   };
 
   return newEntry;
 };
+
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// const toNewPatient = (object: any): NonSsnPatient => {
+//   const newEntry: NonSsnPatient = {
+//     name: parseText(String(object.name)),
+//     id: parseText(String(object.id)),
+//     dateOfBirth: parseText(String(object.dateOfBirth)),
+//     gender: parseGender(object.gender),
+//     occupation: parseText(String(object.occupation)),
+//   };
+
+//   return newEntry;
+// };
+
 export default toNewPatient;

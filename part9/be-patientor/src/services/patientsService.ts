@@ -22,8 +22,6 @@ const addPatient = (patientInfo: NonSsnPatient): NonSsnPatient => {
   };
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   patient.id = uuid();
-  console.log(patient);
-
   patients.push(patient);
   return patient;
 };

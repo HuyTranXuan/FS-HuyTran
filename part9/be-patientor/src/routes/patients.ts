@@ -1,6 +1,6 @@
 import express from 'express';
 import patientsServies from '../services/patientsService';
-// import toNewPatient from '../utils';
+import toNewPatient from '../utils';
 
 const router = express.Router();
 
@@ -9,21 +9,21 @@ router.get('/', (_req, res) => {
   res.send(patientsServies.getPatients());
 });
 
-router.post('/', (_req, res) => {
-  // try {
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  //   const newPatientData = toNewPatient(req.body);
+router.post('/', (req, res) => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const newPatientData = toNewPatient(req.body);
+    // console.log(newPatientData, '<<===');
 
-  //   const addedPatient = patientsServies.addPatient(newPatientData);
-  //   res.json(addedPatient);
-  // } catch (error: unknown) {
-  //   let errorMessage = 'Something went wrong.';
-  //   if (error instanceof Error) {
-  //     errorMessage += ' Error: ' + error.message;
-  //   }
-  //   res.status(400).send(errorMessage);
-  // }
-  res.send('Saving a diary!');
+    const addedPatient = patientsServies.addPatient(newPatientData);
+    res.json(addedPatient);
+  } catch (error: unknown) {
+    let errorMessage = 'Something went wrong.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    res.status(400).send(errorMessage);
+  }
 });
 
 // // T O :   / A P I / C A R D S / : I D

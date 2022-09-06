@@ -1,12 +1,12 @@
-POST http://localhost:3001/api/patients/
-Content-Type: application/json
+POST http://localhost:3001/api/patients HTTP/1.1
+
+Content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh1eTEiLCJpZCI6IjYyYmFmMDY5ZjNiYTgzYmExODA2NGY3MSIsImlhdCI6MTY1NjQxODQyMX0.oOm24UGjn2-Z-qBYR-p06xCc535Z9H4Cg6HSMIkXmc4
 
-  {
-    "id": "d277das3336-f723-11e9-8f0b-362b9e155667",
+{
     "name": "Host McClane",
     "dateOfBirth": "1986-07-09",
     "ssn": "090786-123d",
     "gender": "male",
     "occupation": "New york city copeat",
-  }
+    }
