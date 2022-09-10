@@ -1,8 +1,8 @@
 import patients from '../../data/patients';
-import { NonSsnPatient } from '../types';
+import { PublicPatient } from '../types';
 import { v1 as uuid } from 'uuid';
 
-const getPatients = (): NonSsnPatient[] => {
+const getPatients = (): PublicPatient[] => {
   return patients;
 };
 
@@ -16,7 +16,7 @@ const getPatients = (): NonSsnPatient[] => {
 //   }));
 // };
 
-const addPatient = (patientInfo: NonSsnPatient): NonSsnPatient => {
+const addPatient = (patientInfo: PublicPatient): PublicPatient => {
   const patient = {
     ...patientInfo,
   };
@@ -26,7 +26,7 @@ const addPatient = (patientInfo: NonSsnPatient): NonSsnPatient => {
   return patient;
 };
 
-const findById = (id: string): NonSsnPatient | undefined => {
+const findById = (id: string): PublicPatient | undefined => {
   const patient = patients.find((patient) => patient.id === id);
   return patient;
 };

@@ -1,4 +1,4 @@
-import { NonSsnPatient, Gender } from './types';
+import { Patient, Gender } from './types';
 
 const isString = (input: unknown): input is string => {
   return typeof input === 'string' || input instanceof String;
@@ -28,6 +28,7 @@ type Fields = {
   dateOfBirth: unknown;
   gender: unknown;
   occupation: unknown;
+  ssn: unknown;
 };
 
 const toNewPatient = ({
@@ -36,23 +37,24 @@ const toNewPatient = ({
   dateOfBirth,
   gender,
   occupation,
-}: Fields): NonSsnPatient => {
-  // console.log(parseGender(gender), '<<<==========');
-
-  const newEntry: NonSsnPatient = {
+  ssn,
+}: Fields): Patient => {
+  const newEntry: Patient = {
     name: parseText(String(name)),
     id: parseText(String(id)),
     dateOfBirth: parseText(String(dateOfBirth)),
     gender: parseGender(gender),
     occupation: parseText(String(occupation)),
+    entries: [],
+    ssn: parseText(String(ssn)),
   };
 
   return newEntry;
 };
 
 // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// const toNewPatient = (object: any): NonSsnPatient => {
-//   const newEntry: NonSsnPatient = {
+// const toNewPatient = (object: any): Patient => {
+//   const newEntry: Patient = {
 //     name: parseText(String(object.name)),
 //     id: parseText(String(object.id)),
 //     dateOfBirth: parseText(String(object.dateOfBirth)),
