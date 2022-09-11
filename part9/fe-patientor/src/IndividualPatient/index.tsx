@@ -1,6 +1,8 @@
 import React from 'react';
 // import axios from 'axios';
-import { Box, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
 
 // import { PatientFormValues } from '../AddPatientModal/AddPatientForm';
 // import { State } from '../types';
@@ -13,23 +15,34 @@ import { useParams } from 'react-router';
 //Routes, Route,
 
 const IndividualPatient = () => {
-  const [{ patients }, dispatch] = useStateValue();
+  const [{ patients }] = useStateValue();
+  // const [error, setError] = React.useState<string>();
+
   const { id } = useParams();
+  // if (error)
   if (!id) return null;
   else {
     const patient = patients[id];
-    console.log(patient, dispatch);
-
-    //   const [error, setError] = React.useState<string>();
 
     return (
       <div className="App">
-        <Box>
+        <div>
           <Typography align="center" variant="h6">
-            Individual Patient Informations
-            {id}
+            <b>{patient.name} </b>
+            {patient.gender === 'male' ? (
+              <MaleIcon></MaleIcon>
+            ) : (
+              <FemaleIcon></FemaleIcon>
+            )}
           </Typography>
-        </Box>
+
+          <Typography align="center" variant="h6">
+            ssn: {patient.ssn}
+          </Typography>
+          <Typography align="center" variant="h6">
+            occupation: {patient.occupation}
+          </Typography>
+        </div>
       </div>
     );
   }

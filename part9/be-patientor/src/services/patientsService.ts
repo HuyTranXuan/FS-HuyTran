@@ -1,5 +1,5 @@
 import patients from '../../data/patients';
-import { PublicPatient } from '../types';
+import { Patient, PublicPatient } from '../types';
 import { v1 as uuid } from 'uuid';
 
 const getPatients = (): PublicPatient[] => {
@@ -16,7 +16,7 @@ const getPatients = (): PublicPatient[] => {
 //   }));
 // };
 
-const addPatient = (patientInfo: PublicPatient): PublicPatient => {
+const addPatient = (patientInfo: Patient): Patient => {
   const patient = {
     ...patientInfo,
   };
