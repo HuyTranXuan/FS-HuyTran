@@ -11,6 +11,7 @@ import { useStateValue } from '../state';
 import { TableCell } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import { TableBody } from '@material-ui/core';
+import { addPatientList } from '../state/reducer';
 
 import { Link } from 'react-router-dom';
 //Routes, Route,
@@ -20,9 +21,7 @@ const PatientListPage = () => {
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>();
-
   const openModal = (): void => setModalOpen(true);
-
   const closeModal = (): void => {
     setModalOpen(false);
     setError(undefined);
@@ -34,7 +33,7 @@ const PatientListPage = () => {
         `${apiBaseUrl}/patients`,
         values
       );
-      dispatch({ type: 'ADD_PATIENT', payload: newPatient });
+      dispatch(addPatientList(newPatient));
       closeModal();
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
