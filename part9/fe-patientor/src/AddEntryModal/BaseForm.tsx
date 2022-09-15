@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import { TextField } from './HealthCheckModal/FormField';
+import { TextField } from './FormField';
 
 const BaseForm = () => {
   return (

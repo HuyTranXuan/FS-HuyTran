@@ -1,42 +1,49 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { DiagnosisSelection, TextField } from '../FormField';
-import { HospitalEntry } from '../../types';
+import { OccupationalHealthcare } from '../../types';
 import { useStateValue } from '../../state';
 import BaseForm from '../BaseForm';
 import BaseButtons from '../BaseButtons';
 
-export type HospitalFormValues = Omit<HospitalEntry, 'id'>;
+export type OccupationalFormValues = Omit<OccupationalHealthcare, 'id'>;
 interface Props {
-  onSubmit: (values: HospitalFormValues) => void;
+  onSubmit: (values: OccupationalFormValues) => void;
   onCancel: () => void;
 }
-export const AddHospitalEntryForm = ({ onSubmit, onCancel }: Props) => {
+export const AddOccupationalEntryForm = ({ onSubmit, onCancel }: Props) => {
   const [{ diagnoses }] = useStateValue();
   return (
     <Formik
       initialValues={{
         description: '',
-        discharge: { date: '', criteria: '' },
         specialist: '',
         date: '',
-        type: 'Hospital',
+        employerName: '',
+        sickLeave: { startDate: '', endDate: '' },
+        type: 'OccupationalHealthcare',
       }}
       onSubmit={onSubmit}
       validate={(values) => {
         const requiredError = 'Values are missing or formatted incorrectly';
+        const requiredBothError = 'Need both start date and end date info';
         const errors: { [field: string]: string } = {};
-        if (!values.date || values.date.length < 10) {
+        if (!values.date || values.date.length != 10) {
           errors.date = requiredError;
+        }
+        if (
+          values.sickLeave?.startDate.length != values.sickLeave?.endDate.length
+        ) {
+          errors.sickLeave = requiredBothError;
         }
         if (!values.description) {
           errors.description = requiredError;
         }
+        if (!values.employerName) {
+          errors.employerName = requiredError;
+        }
         if (!values.specialist || values.specialist.length < 2) {
           errors.specialist = requiredError;
-        }
-        if (!values.discharge.date || !values.discharge.criteria) {
-          errors.discharge = requiredError;
         }
         return errors;
       }}
@@ -51,15 +58,21 @@ export const AddHospitalEntryForm = ({ onSubmit, onCancel }: Props) => {
               diagnoses={Object.values(diagnoses)}
             />
             <Field
-              label="Discharge Date"
-              placeholder="YYYY-MM-DD"
-              name="discharge.date"
+              label="Employer Name"
+              placeholder="Employer Name"
+              name="employerName"
               component={TextField}
             />
             <Field
-              label="Discharge Criteria"
-              placeholder="criteria"
-              name="discharge.criteria"
+              label="Sick Leave Start Date"
+              placeholder="YYYY-MM-DD"
+              name="sickLeave.startDate"
+              component={TextField}
+            />
+            <Field
+              label="Sick Leave End Date"
+              placeholder="YYYY-MM-DD"
+              name="sickLeave.endDate"
               component={TextField}
             />
             <BaseButtons onCancel={onCancel} isValid={isValid} dirty={dirty} />
@@ -70,4 +83,4 @@ export const AddHospitalEntryForm = ({ onSubmit, onCancel }: Props) => {
   );
 };
 
-export default AddHospitalEntryForm;
+export default AddOccupationalEntryForm;

@@ -20,14 +20,19 @@ export const EntryDetails: React.FC<{
 
   switch (entry.type) {
     case 'Hospital':
-      entryPart = (
-        <div>
-          <br />
-          discharge information:
-          <p>date: {entry.discharge.date}</p>
-          <p>criteria: {entry.discharge.criteria}</p>
-        </div>
-      );
+      if (
+        entry.discharge.date.length === 10 &&
+        entry.discharge.criteria.length > 0
+      ) {
+        entryPart = (
+          <div>
+            <br />
+            discharge information:
+            <p>date: {entry.discharge.date}</p>
+            <p>criteria: {entry.discharge.criteria}</p>
+          </div>
+        );
+      }
       break;
     case 'HealthCheck':
       entryPart = <div>health Check Rating {entry.healthCheckRating}</div>;

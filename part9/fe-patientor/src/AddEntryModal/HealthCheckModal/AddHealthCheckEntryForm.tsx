@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Grid, Button } from '@material-ui/core';
 import { Formik, Form } from 'formik';
-import { DiagnosisSelection, SelectField, RatingOption } from './FormField';
+import { DiagnosisSelection, SelectField, RatingOption } from '../FormField';
 import { HealthCheckEntry, HealthCheckRating } from '../../types';
 import { useStateValue } from '../../state';
 import BaseForm from '../BaseForm';

@@ -13,6 +13,8 @@ import { useStateValue, addEntryList, setPatient } from '../state';
 import AddHealthCheckEntryModal from '../AddEntryModal/HealthCheckModal';
 import AddHospitalEntryModal from '../AddEntryModal/HospitalModal';
 import { HospitalFormValues } from '../AddEntryModal/HospitalModal/AddHospitalEntryForm';
+import { OccupationalFormValues } from '../AddEntryModal/OccupationalModal/AddOccupationalEntryForm';
+import AddOccupationalEntryModal from '../AddEntryModal/OccupationalModal';
 
 const IndividualPatient = () => {
   const [{ patient, diagnoses }, dispatch] = useStateValue();
@@ -20,16 +22,23 @@ const IndividualPatient = () => {
     React.useState<boolean>(false);
   const [hospitalModalOpen, setHospitalModalOpen] =
     React.useState<boolean>(false);
+  const [occupationalModalOpen, setOccupationalModalOpen] =
+    React.useState<boolean>(false);
 
   const [error, setError] = React.useState<string>();
   const openHealthCheckModal = (): void => setHealthCheckModalOpen(true);
   const openHospitalModal = (): void => setHospitalModalOpen(true);
+  const openOccupationalModal = (): void => setOccupationalModalOpen(true);
   const closeHealthCheckModal = (): void => {
     setHealthCheckModalOpen(false);
     setError(undefined);
   };
   const closeHospitalModal = (): void => {
     setHospitalModalOpen(false);
+    setError(undefined);
+  };
+  const closeOccupationalModal = (): void => {
+    setOccupationalModalOpen(false);
     setError(undefined);
   };
   const padding = { padding: '1rem' };
@@ -79,6 +88,28 @@ const IndividualPatient = () => {
           );
           dispatch(addEntryList(newEntry, id));
           closeHospitalModal();
+        }
+      } catch (e: unknown) {
+        if (axios.isAxiosError(e)) {
+          console.error(e?.response?.data || 'Unrecognized axios error');
+          setError(
+            String(e?.response?.data?.error) || 'Unrecognized axios error'
+          );
+        } else {
+          console.error('Unknown error', e);
+          setError('Unknown error');
+        }
+      }
+    };
+    const submitOccupational = async (values: OccupationalFormValues) => {
+      try {
+        if (id) {
+          const { data: newEntry } = await axios.post<Entry>(
+            `${apiBaseUrl}/patients/${id}/entries`,
+            values
+          );
+          dispatch(addEntryList(newEntry, id));
+          closeOccupationalModal();
         }
       } catch (e: unknown) {
         if (axios.isAxiosError(e)) {
@@ -149,6 +180,12 @@ const IndividualPatient = () => {
             error={error}
             onClose={closeHospitalModal}
           />
+          <AddOccupationalEntryModal
+            modalOpen={occupationalModalOpen}
+            onSubmit={submitOccupational}
+            error={error}
+            onClose={closeOccupationalModal}
+          />
           <ButtonGroup
             variant="outlined"
             aria-label="outlined primary button group"
@@ -160,7 +197,7 @@ const IndividualPatient = () => {
             <Button onClick={() => openHospitalModal()}>
               Add Hospital Entry
             </Button>
-            <Button onClick={() => openHealthCheckModal()}>
+            <Button onClick={() => openOccupationalModal()}>
               Add Occupational Healthcare Entry
             </Button>
           </ButtonGroup>
