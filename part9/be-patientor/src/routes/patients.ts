@@ -2,6 +2,7 @@ import express from 'express';
 import patientsServies from '../services/patientsService';
 import toNewPatient from '../utils';
 import { Entry } from '../types';
+import { v1 as uuid } from 'uuid';
 
 const router = express.Router();
 
@@ -42,34 +43,31 @@ router.post('/:id/entries', (req, res) => {
       `Unhandled discriminated union member: ${JSON.stringify(value)}`
     );
   };
-
   try {
     const entry: Entry = req.body as Entry;
-    // let entryInfo = {
-    //   id: entry.id,
-    //   description: entry.description,
-    //   date: entry.date,
-    //   specialist: entry.specialist,
-    //   diagnosisCodes: entry.diagnosisCodes,
-    // };
     let entryInfo = { ...entry };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    entryInfo.id = uuid();
 
     switch (entry.type) {
       case 'Hospital':
         entryInfo = {
           type: 'Hospital',
-          id: entry.id,
+          id: entryInfo.id,
           description: entry.description,
           date: entry.date,
           specialist: entry.specialist,
           diagnosisCodes: entry.diagnosisCodes,
-          discharge: entry.discharge,
+          discharge: {
+            date: entry.discharge.date,
+            criteria: entry.discharge.criteria,
+          },
         };
         break;
       case 'HealthCheck':
         entryInfo = {
           type: 'HealthCheck',
-          id: entry.id,
+          id: entryInfo.id,
           description: entry.description,
           date: entry.date,
           specialist: entry.specialist,
@@ -80,7 +78,7 @@ router.post('/:id/entries', (req, res) => {
       case 'OccupationalHealthcare':
         entryInfo = {
           type: 'OccupationalHealthcare',
-          id: entry.id,
+          id: entryInfo.id,
           description: entry.description,
           date: entry.date,
           specialist: entry.specialist,

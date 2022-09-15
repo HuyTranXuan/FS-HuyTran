@@ -19,15 +19,9 @@ const findById = (id: string): PublicPatient | undefined => {
   return patient;
 };
 const addEntry = (entryInfo: Entry, patientId: string): Entry => {
-  const entry = {
-    ...entryInfo,
-  };
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-  entry.id = uuid();
-  patients.find((p) => p.id === patientId)?.entries.concat(entry);
+  const entry = { ...entryInfo };
+  patients.find((p) => p.id === patientId)?.entries.push(entry);
   return entry;
-  // patients.push(patient);
-  // return patient;
 };
 
 export default {
