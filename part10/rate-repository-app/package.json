@@ -11,14 +11,21 @@
     "lint": "eslint ./src/**/*.{js,jsx} App.js --no-error-on-unmatched-pattern"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.1",
     "@expo/webpack-config": "^0.17.0",
+    "@react-native-async-storage/async-storage": "~1.17.3",
+    "@react-navigation/core": "^6.4.0",
+    "@types/react": "^18.0.25",
+    "dotenv": "^16.0.3",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
     "formik": "^2.2.9",
+    "graphql": "^16.6.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
     "react-native-web": "~0.18.7",
+    "react-router-dom": "^6.4.3",
     "react-router-native": "^6.4.2",
     "yup": "^0.32.11"
   },
