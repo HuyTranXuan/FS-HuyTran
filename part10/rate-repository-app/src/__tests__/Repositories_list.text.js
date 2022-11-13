@@ -1,7 +1,7 @@
-import React from 'react'
-import { render } from '@testing-library/react-native'
-import RepositoryListContainer from '../components/RepositoryList'
-// import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { RepositoryListContainer } from '../components/RepositoryList';
+import '@testing-library/jest-native/extend-expect';
 
 describe('RepositoryList', () => {
   describe('RepositoryListContainer', () => {
@@ -47,21 +47,70 @@ describe('RepositoryList', () => {
               'WyJhc3luYy1saWJyYXJ5LnJlYWN0LWFzeW5jIiwxNTg4NjU2NzUwMDc2XQ==',
           },
         ],
-      }
-      //   const client = new ApolloClient({
-      //     cache: new InMemoryCache(),
-      //   })
-      // Add your test code here
+      };
+
       const { getAllByTestId } = render(
-        // <ApolloProvider client={client}>
         <RepositoryListContainer repositories={repositories} />
-        // </ApolloProvider>
-      )
-      //   const repositoryItems = getAllByTestId('repositoryItem')
-      //   const [firstRepositoryItem, secondRepositoryItem] = repositoryItems
-      //   console.log(firstRepositoryItem, secondRepositoryItem)
-      console.log(getAllByTestId('repositoryItem')[0])
-      expect(1).toBe(1)
-    })
-  })
-})
+      );
+      /**
+      import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+      const client = new ApolloClient({
+        cache: new InMemoryCache(),
+      })
+
+      <ApolloProvider client={client}>
+      </ApolloProvider>
+      
+        const repositoryItems = getAllByTestId('repositoryItem')
+        const [firstRepositoryItem, secondRepositoryItem] = repositoryItems
+
+      const checkItems = [
+        'fullName',
+        'description',
+        'language',
+        'forksCount',
+        'stargazersCount',
+        'ratingAverage',
+        'reviewCount',
+      ];
+      for (const edge of repositories.edges) {
+        for (const property in edge.node) {
+          console.log(property, edge.node[property]);
+          if (checkItems.includes(String(property))) {
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(getAllByTestId(`${property}`)[0]).toHaveTextContent(
+              String(edge.node[property])
+            );
+          }
+        }
+      }
+      
+      YEAH I WILL DO IT MANUALLY THEN
+       */
+      expect(getAllByTestId('fullName')[0]).toHaveTextContent(
+        'jaredpalmer/formik'
+      );
+      expect(getAllByTestId('description')[0]).toHaveTextContent(
+        'Build forms in React, without the tears'
+      );
+      expect(getAllByTestId('language')[0]).toHaveTextContent('TypeScript');
+      expect(getAllByTestId('forksCount')[0]).toHaveTextContent('1,6k');
+      expect(getAllByTestId('stargazersCount')[0]).toHaveTextContent('21,9k');
+      expect(getAllByTestId('ratingAverage')[0]).toHaveTextContent('88');
+      expect(getAllByTestId('reviewCount')[0]).toHaveTextContent('3');
+
+      //S E C O N D   E D G E
+      expect(getAllByTestId('fullName')[1]).toHaveTextContent(
+        'async-library/react-async'
+      );
+      expect(getAllByTestId('description')[1]).toHaveTextContent(
+        'Flexible promise-based React data loader'
+      );
+      expect(getAllByTestId('language')[1]).toHaveTextContent('JavaScript');
+      expect(getAllByTestId('forksCount')[1]).toHaveTextContent('69');
+      expect(getAllByTestId('stargazersCount')[1]).toHaveTextContent('1,8');
+      expect(getAllByTestId('ratingAverage')[1]).toHaveTextContent('72');
+      expect(getAllByTestId('reviewCount')[1]).toHaveTextContent('3');
+    });
+  });
+});
