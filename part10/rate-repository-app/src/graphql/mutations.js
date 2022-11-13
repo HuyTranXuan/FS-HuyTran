@@ -1,18 +1,16 @@
 import { gql } from '@apollo/client'
 
-export const AUTHENTICATE = gql`
-  mutation {
-    authenticate(credentials: { username: "kalle", password: "password" }) {
-      accessToken
-    }
-  }
-`
+import { USER_BASE_FIELDS } from './fragments'
 
-export const CREATE_USER = gql`
-  mutation {
-    createUser(user: { username: "myusername", password: "mypassword" }) {
-      id
-      username
+export const AUTHENTICATE = gql`
+  mutation authorize($credentials: AuthenticateInput!) {
+    authenticate(credentials: $credentials) {
+      accessToken
+      user {
+        ...userBaseFields
+      }
     }
   }
+
+  ${USER_BASE_FIELDS}
 `

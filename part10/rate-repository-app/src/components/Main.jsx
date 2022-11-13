@@ -8,10 +8,9 @@ import theme from '../theme'
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: theme.colors.mainBackground,
     flexGrow: 1,
     flexShrink: 1,
-    backgroundColor: '#e1e4e8',
-    fontFamily: theme.fonts,
   },
 })
 
@@ -21,7 +20,7 @@ const Main = () => {
       <AppBar />
       <Routes>
         <Route path="/" element={<RepositoryList />} exact />
-        <Route path="/signIn" element={<SignIn />} exact />
+        <Route path="sign-in" element={<SignIn />} exact />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </View>

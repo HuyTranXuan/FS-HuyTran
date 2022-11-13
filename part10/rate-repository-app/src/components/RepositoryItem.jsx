@@ -1,86 +1,120 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
+
+import theme from '../theme'
+import Text from './Text'
+import formatInThousands from '../utils/formatInThousands'
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    padding: '10px',
-    backgroundColor: '#f6f8f8',
+  container: {
+    backgroundColor: 'white',
+    padding: 15,
   },
-  infoBox: {
+  topContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    paddingBottom: '20px',
+    marginBottom: 15,
   },
-  image: {
-    height: 50,
-    width: 50,
-    borderRadius: 10,
-  },
-  flexItemA: {
-    flexDirection: 'column',
-    paddingLeft: '20px',
-  },
-  flexItemB: {
+  bottomContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
   },
-  flexItemCard: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
+  avatarContainer: {
+    flexGrow: 0,
+    marginRight: 20,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    flexShrink: 1,
+  },
+  nameText: {
+    marginBottom: 5,
+  },
+  descriptionText: {
+    flexGrow: 1,
+  },
+  avatar: {
+    width: 45,
+    height: 45,
+    borderRadius: theme.roundness,
+  },
+  countItem: {
+    flexGrow: 0,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 15,
   },
-  boldText: {
-    fontWeight: '700',
+  countItemCount: {
+    marginBottom: 5,
   },
-  greyText: {
-    color: '#575655',
-    fontWeight: '500',
+  languageContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
   },
-  langText: {
-    color: '#f6f8f8',
-    alignSelf: 'flex-start',
-    backgroundColor: '#0366d6',
-    padding: '7px',
-    borderRadius: 5,
+  languageText: {
+    color: 'white',
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.roundness,
+    flexGrow: 0,
+    paddingVertical: 3,
+    paddingHorizontal: 6,
   },
 })
-const convertToK = (value) => {
-  return value >= 1000 ? `${Math.round((value / 10000) * 100) / 10}k` : value
+
+const CountItem = ({ label, count }) => {
+  return (
+    <View style={styles.countItem}>
+      <Text style={styles.countItemCount} fontWeight="bold">
+        {formatInThousands(count)}
+      </Text>
+      <Text color="textSecondary">{label}</Text>
+    </View>
+  )
 }
 
-const RepositoryItem = ({ item }) => (
-  <View style={styles.flexContainer}>
-    <View style={styles.infoBox}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: 'https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco,dpr_1/v1458093281/vh10glkjjmfo3qfmmoen.png',
-        }}
-      />
-      <View style={styles.flexItemA}>
-        <Text style={styles.boldText}>{item.fullName}</Text>
-        <Text style={styles.greyText}>{item.description}</Text>
-        <Text style={styles.langText}>{item.language}</Text>
+const RepositoryItem = ({ repository }) => {
+  const {
+    fullName,
+    description,
+    language,
+    forksCount,
+    stargazersCount,
+    ratingAverage,
+    reviewCount,
+    ownerAvatarUrl,
+  } = repository
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <View style={styles.avatarContainer}>
+          <Image source={{ uri: ownerAvatarUrl }} style={styles.avatar} />
+        </View>
+        <View style={styles.contentContainer}>
+          <Text
+            style={styles.nameText}
+            fontWeight="bold"
+            fontSize="subheading"
+            numberOfLines={1}
+          >
+            {fullName}
+          </Text>
+          <Text style={styles.descriptionText} color="textSecondary">
+            {description}
+          </Text>
+          {language ? (
+            <View style={styles.languageContainer}>
+              <Text style={styles.languageText}>{language}</Text>
+            </View>
+          ) : null}
+        </View>
+      </View>
+      <View style={styles.bottomContainer}>
+        <CountItem count={stargazersCount} label="Stars" />
+        <CountItem count={forksCount} label="Forks" />
+        <CountItem count={reviewCount} label="Reviews" />
+        <CountItem count={ratingAverage} label="Rating" />
       </View>
     </View>
-    <View style={styles.flexItemB}>
-      <View style={styles.flexItemCard}>
-        <Text style={styles.boldText}>{convertToK(item.stargazersCount)}</Text>
-        <Text style={styles.greyText}>Starts</Text>
-      </View>
-      <View style={styles.flexItemCard}>
-        <Text style={styles.boldText}>{convertToK(item.forksCount)}</Text>
-        <Text style={styles.greyText}>Forks</Text>
-      </View>
-      <View style={styles.flexItemCard}>
-        <Text style={styles.boldText}>{convertToK(item.reviewCount)}</Text>
-        <Text style={styles.greyText}>Reviews</Text>
-      </View>
-      <View style={styles.flexItemCard}>
-        <Text style={styles.boldText}>{convertToK(item.ratingAverage)}</Text>
-        <Text style={styles.greyText}>Rating</Text>
-      </View>
-    </View>
-  </View>
-)
+  )
+}
 
 export default RepositoryItem
