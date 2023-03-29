@@ -46,7 +46,7 @@ const CreateReviewForm = ({ onSubmit }) => {
   );
 };
 
-const SignIn = () => {
+const CreateReview = () => {
   const [createReview] = useMutation(CREATE_REVIEW);
   const navigate = useNavigate();
 
@@ -78,4 +78,4 @@ export const CreateReviewFormContainer = ({ handleSubmit }) => (
   </Formik>
 );
 
-export default SignIn;
+export default CreateReview;
