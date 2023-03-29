@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 const validationSchema = yup.object().shape({
   repoOwner: yup.string().required('Repository owner name is required'),
   repoName: yup.string().required('Repository name is required'),
-  rating: yup.number().required('Rating is required'),
-  review: yup.string().required('Review is required'),
+  rating: yup.number().required('Rating is required').min(0).max(100),
+  review: yup.string(),
 });
 
 const CreateReviewForm = ({ onSubmit }) => {
@@ -38,7 +38,7 @@ const CreateReviewForm = ({ onSubmit }) => {
         <FormikTextInput name="rating" placeholder="Rating" />
       </View>
       <View style={styles.fieldContainer}>
-        <FormikTextInput name="review" placeholder="Review" />
+        <FormikTextInput name="review" placeholder="Review" multiline />
       </View>
       <Button onPress={onSubmit}>Create a review</Button>
     </View>
