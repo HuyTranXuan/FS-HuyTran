@@ -157,15 +157,29 @@ const RepositoryItem = ({ repository, single }) => {
             {formatInThousands(ratingAverage)}
           </Text>
         </View>
-        {single && (
-          <View style={styles.bottomContainer}>
-            <View style={styles.gitHubContainer}>
-              <Pressable onPress={onGitHubClick}>
-                <Text style={styles.gitHubText}>Open in GitHub</Text>
-              </Pressable>
-            </View>
+        <View style={styles.bottomContainer}>
+          <Text testID="stargazersCount" color="textSecondary">
+            Stars
+          </Text>
+          <Text testID="forksCount" color="textSecondary">
+            Forks
+          </Text>
+          <Text testID="reviewCount" color="textSecondary">
+            Reviews
+          </Text>
+          <Text testID="ratingAverage" color="textSecondary">
+            Rating
+          </Text>
+        </View>
+        {/* {single && ( */}
+        <View style={styles.bottomContainer}>
+          <View style={styles.gitHubContainer}>
+            <Pressable onPress={onGitHubClick}>
+              <Text style={styles.gitHubText}>Open in GitHub</Text>
+            </Pressable>
           </View>
-        )}
+        </View>
+        {/* )} */}
       </View>
     </Pressable>
   );
