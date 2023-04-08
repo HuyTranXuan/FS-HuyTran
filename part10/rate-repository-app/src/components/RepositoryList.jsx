@@ -2,8 +2,10 @@ import { FlatList, View, StyleSheet, Pressable, Text } from 'react-native';
 
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import theme from '../theme';
+import TextInput from './TextInput';
+import { useDebounce } from 'use-debounce';
 
 const styles = StyleSheet.create({
   separator: {
@@ -26,28 +28,69 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 500,
   },
+  textInput: {
+    backgroundColor: 'white',
+    padding: 10,
+  },
 });
 
-export const RepositoryListContainer = ({ repositories }) => {
-  const repositoryNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
-    : [];
+// export const RepositoryListContainer = ({ repositories }) => {
+//   const repositoryNodes = repositories
+//     ? repositories.edges.map((edge) => edge.node)
+//     : [];
 
-  return (
-    <FlatList
-      data={repositoryNodes}
-      keyExtractor={({ id }) => id}
-      renderItem={({ item }) => <RepositoryItem repository={item} />}
-      ItemSeparatorComponent={ItemSeparator}
-    />
-  );
-};
+//   return (
+//     <FlatList
+//       data={repositoryNodes}
+//       keyExtractor={({ id }) => id}
+//       renderItem={({ item }) => <RepositoryItem repository={item} />}
+//       ItemSeparatorComponent={ItemSeparator}
+//     />
+//   );
+// };
 
+export class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
+    const props = this.props;
+    const [text, setText] = React.useState('');
+    const [searchKeyword] = useDebounce(text, 500);
+    const handleTextChange = (value) => {
+      setText(value);
+    };
+    useEffect(() => {
+      props.setSearchBy({ searchKeyword });
+    }, [searchKeyword]);
+
+    return (
+      <View>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={handleTextChange}
+          value={text}
+          placeholder="Type to search..."
+        ></TextInput>
+      </View>
+    );
+  };
+
+  render() {
+    return (
+      <FlatList
+        data={this.props.repositories}
+        keyExtractor={({ id }) => id}
+        renderItem={({ item }) => <RepositoryItem repository={item} />}
+        ItemSeparatorComponent={ItemSeparator}
+        ListHeaderComponent={this.renderHeader}
+      />
+    );
+  }
+}
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
   const [sortBy, setSortBy] = useState(1);
-  const { repositories } = useRepositories(sortBy);
+  const [searchBy, setSearchBy] = useState('');
+  const { repositories } = useRepositories(sortBy, searchBy);
 
   return (
     <View style={styles.gitHubContainer}>
@@ -72,7 +115,13 @@ const RepositoryList = () => {
       >
         <Text style={styles.gitHubText}>Lowest rated repositories</Text>
       </Pressable>
-      <RepositoryListContainer repositories={repositories} />
+      <RepositoryListContainer
+        repositories={
+          repositories ? repositories.edges.map((edge) => edge.node) : []
+        }
+        searchBy={searchBy}
+        setSearchBy={setSearchBy}
+      />
     </View>
   );
 };
