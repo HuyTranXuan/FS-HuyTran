@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SingleReviewItem = ({ review }) => {
+const SingleReviewItem = ({ review, isMyReview }) => {
   const { text, user, rating, createdAt } = review;
   const { username } = user;
   const date = String(createdAt).split('-');
@@ -93,7 +93,7 @@ const SingleReviewItem = ({ review }) => {
             numberOfLines={1}
             testID="fullName"
           >
-            {username}
+            {isMyReview ? review.repository.fullName : username}
           </Text>
           <Text
             testID="description"
